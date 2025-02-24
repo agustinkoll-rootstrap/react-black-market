@@ -6,7 +6,7 @@ type Variables = {
   email: string;
   name: string;
   password: string;
-  passwordConfirmation: string;
+  password_confirmation: string;
 };
 
 type Response = {
@@ -27,15 +27,24 @@ type Response = {
 };
 
 const signUp = async (variables: Variables) => {
-  const { data } = await client({
-    url: '/v1/users',
-    method: 'POST',
-    data: {
-      user: variables,
-    },
-  });
-
-  return data;
+  try {
+     const { data } = await client({
+      url: '/v1/users',
+      method: 'POST',
+      data: {
+        user: variables,
+      },
+    });
+    
+    if(data.error) {
+      console.error('DATA Error en la petición de SIGN UP:', data.error);
+      throw new Error(data.error);
+    }
+    return data;
+  } catch (error) {
+    console.error('Error in signUp request:', error);
+    throw error;
+  }
 };
 
 export const useSignUp = createMutation<Response, Variables>({

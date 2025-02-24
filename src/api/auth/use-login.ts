@@ -16,15 +16,24 @@ type Response = {
   refreshToken: string;
 };
 
-const login = async (variables: Variables) => {
-  const { data } = await client({
-    url: '/v1/users/sign_in',
-    method: 'POST',
-    data: {
-      user: variables,
-    },
-  });
-  return data;
+const login = async (variables: Variables): Promise<Response> => {
+  try {
+    const { data } = await client({
+      url: '/v1/users/sign_in',
+      method: 'POST',
+      data: {
+        user: variables,
+      },
+    });
+    if(data.error) {
+      console.error('DATA Error en la petición de login:', data.error);
+      throw new Error(data.error);
+    }
+    return data;
+  } catch (error) {
+    console.error('Error en la petición de login:', error);
+    throw error;
+  }
 };
 
 export const useLogin = createMutation<Response, Variables>({

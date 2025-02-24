@@ -175,7 +175,7 @@ const _buildTimeEnv = {
   EXPO_ACCOUNT_OWNER,
   EAS_PROJECT_ID,
   // ADD YOUR ENV VARS HERE TOO
-  SECRET_KEY: parseString(process.env.SECRET_KEY),
+  SECRET_KEY: "asdsad",
 };
 
 /**
